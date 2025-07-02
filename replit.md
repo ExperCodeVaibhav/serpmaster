@@ -21,9 +21,11 @@ SERP Shine is a modern full-stack web application built as an AI-powered digital
 
 ### Database Layer
 - **ORM**: Drizzle ORM with PostgreSQL dialect
-- **Database**: PostgreSQL (configured for Neon serverless)
+- **Database**: PostgreSQL (live database connected)
 - **Migrations**: Drizzle Kit for schema management
 - **Schema**: Shared schema definitions between client and server
+- **Storage**: DatabaseStorage class for all CRUD operations
+- **Tables**: Users, Contacts, SEO Analyses, AI Chats, Projects
 
 ## Key Components
 
@@ -93,6 +95,9 @@ The application defines several core entities:
 
 Changelog:
 - July 02, 2025. Initial setup
+- July 02, 2025. Complete website redesign with AI-powered features
+- July 02, 2025. Added comprehensive mega menu navigation matching serpwizard.com structure
+- July 02, 2025. Integrated PostgreSQL database with Drizzle ORM
 
 ## User Preferences
 

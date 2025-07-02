@@ -15,6 +15,8 @@ import {
   type Project,
   type InsertProject
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -35,35 +37,100 @@ export interface IStorage {
   getFeaturedProjects(): Promise<Project[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private contacts: Map<number, Contact>;
-  private seoAnalyses: Map<number, SeoAnalysis>;
-  private aiChats: Map<number, AiChat>;
-  private projects: Map<number, Project>;
-  private currentUserId: number;
-  private currentContactId: number;
-  private currentSeoAnalysisId: number;
-  private currentAiChatId: number;
-  private currentProjectId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.contacts = new Map();
-    this.seoAnalyses = new Map();
-    this.aiChats = new Map();
-    this.projects = new Map();
-    this.currentUserId = 1;
-    this.currentContactId = 1;
-    this.currentSeoAnalysisId = 1;
-    this.currentAiChatId = 1;
-    this.currentProjectId = 1;
-
-    // Initialize with sample projects
-    this.initializeProjects();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
-  private initializeProjects() {
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async createContact(insertContact: InsertContact): Promise<Contact> {
+    const [contact] = await db
+      .insert(contacts)
+      .values({
+        ...insertContact,
+        website: insertContact.website || null,
+        message: insertContact.message || null
+      })
+      .returning();
+    return contact;
+  }
+
+  async getContacts(): Promise<Contact[]> {
+    return await db.select().from(contacts).orderBy(contacts.createdAt);
+  }
+
+  async createSeoAnalysis(insertSeoAnalysis: InsertSeoAnalysis): Promise<SeoAnalysis> {
+    const [analysis] = await db
+      .insert(seoAnalyses)
+      .values(insertSeoAnalysis)
+      .returning();
+    return analysis;
+  }
+
+  async getSeoAnalysis(website: string): Promise<SeoAnalysis | undefined> {
+    const [analysis] = await db.select().from(seoAnalyses).where(eq(seoAnalyses.website, website));
+    return analysis || undefined;
+  }
+
+  async createAiChat(insertAiChat: InsertAiChat): Promise<AiChat> {
+    const [chat] = await db
+      .insert(aiChats)
+      .values(insertAiChat)
+      .returning();
+    return chat;
+  }
+
+  async getAiChats(sessionId: string): Promise<AiChat[]> {
+    return await db.select().from(aiChats).where(eq(aiChats.sessionId, sessionId)).orderBy(aiChats.createdAt);
+  }
+
+  async createProject(insertProject: InsertProject): Promise<Project> {
+    const [project] = await db
+      .insert(projects)
+      .values({
+        ...insertProject,
+        imageUrl: insertProject.imageUrl || null,
+        testimonial: insertProject.testimonial || null,
+        clientName: insertProject.clientName || null,
+        clientRole: insertProject.clientRole || null,
+        duration: insertProject.duration || null,
+        featured: insertProject.featured || false
+      })
+      .returning();
+    return project;
+  }
+
+  async getProjects(): Promise<Project[]> {
+    return await db.select().from(projects).orderBy(projects.createdAt);
+  }
+
+  async getFeaturedProjects(): Promise<Project[]> {
+    return await db.select().from(projects).where(eq(projects.featured, true)).orderBy(projects.createdAt);
+  }
+}
+
+// Initialize database with sample projects
+async function initializeDatabase() {
+  try {
+    // Check if projects already exist
+    const existingProjects = await db.select().from(projects).limit(1);
+    if (existingProjects.length > 0) {
+      return; // Already initialized
+    }
+
     const sampleProjects: InsertProject[] = [
       {
         title: "E-commerce Fashion Platform",
@@ -99,101 +166,18 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    sampleProjects.forEach(project => {
-      this.createProject(project);
-    });
-  }
-
-  async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
-  }
-
-  async createContact(insertContact: InsertContact): Promise<Contact> {
-    const id = this.currentContactId++;
-    const contact: Contact = { 
-      ...insertContact, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.contacts.set(id, contact);
-    return contact;
-  }
-
-  async getContacts(): Promise<Contact[]> {
-    return Array.from(this.contacts.values()).sort(
-      (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
-    );
-  }
-
-  async createSeoAnalysis(insertSeoAnalysis: InsertSeoAnalysis): Promise<SeoAnalysis> {
-    const id = this.currentSeoAnalysisId++;
-    const analysis: SeoAnalysis = { 
-      ...insertSeoAnalysis, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.seoAnalyses.set(id, analysis);
-    return analysis;
-  }
-
-  async getSeoAnalysis(website: string): Promise<SeoAnalysis | undefined> {
-    return Array.from(this.seoAnalyses.values()).find(
-      (analysis) => analysis.website === website
-    );
-  }
-
-  async createAiChat(insertAiChat: InsertAiChat): Promise<AiChat> {
-    const id = this.currentAiChatId++;
-    const chat: AiChat = { 
-      ...insertAiChat, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.aiChats.set(id, chat);
-    return chat;
-  }
-
-  async getAiChats(sessionId: string): Promise<AiChat[]> {
-    return Array.from(this.aiChats.values())
-      .filter(chat => chat.sessionId === sessionId)
-      .sort((a, b) => (a.createdAt?.getTime() || 0) - (b.createdAt?.getTime() || 0));
-  }
-
-  async createProject(insertProject: InsertProject): Promise<Project> {
-    const id = this.currentProjectId++;
-    const project: Project = { 
-      ...insertProject, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.projects.set(id, project);
-    return project;
-  }
-
-  async getProjects(): Promise<Project[]> {
-    return Array.from(this.projects.values()).sort(
-      (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
-    );
-  }
-
-  async getFeaturedProjects(): Promise<Project[]> {
-    return Array.from(this.projects.values())
-      .filter(project => project.featured)
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
+    const storage = new DatabaseStorage();
+    for (const project of sampleProjects) {
+      await storage.createProject(project);
+    }
+    
+    console.log("Database initialized with sample data");
+  } catch (error) {
+    console.error("Failed to initialize database:", error);
   }
 }
 
-export const storage = new MemStorage();
+// Call initialization
+initializeDatabase();
+
+export const storage = new DatabaseStorage();
