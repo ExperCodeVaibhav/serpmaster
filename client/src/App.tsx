@@ -31,6 +31,7 @@ import TestimonialsPage from "@/pages/testimonials";
 import FAQPage from "@/pages/faq";
 import SupportPage from "@/pages/support";
 import KnowledgeBasePage from "@/pages/knowledge-base";
+import AdminPage from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -69,6 +70,9 @@ function Router() {
       <Route path="/faq" component={FAQPage} />
       <Route path="/support" component={SupportPage} />
       <Route path="/knowledge-base" component={KnowledgeBasePage} />
+      
+      {/* Admin */}
+      <Route path="/admin" component={AdminPage} />
       
       <Route component={NotFound} />
     </Switch>

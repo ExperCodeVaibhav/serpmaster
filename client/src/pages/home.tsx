@@ -5,6 +5,7 @@ import { ServicesSection } from "@/components/services-section";
 import { PricingSection } from "@/components/pricing-section";
 import { PortfolioSection } from "@/components/portfolio-section";
 import { ContactSection } from "@/components/contact-section";
+import { BlogSection } from "@/components/blog-section";
 import { Footer } from "@/components/footer";
 import { FloatingChatWidget } from "@/components/ai-chat-widget";
 import { Card, CardContent } from "@/components/ui/card";
@@ -65,6 +66,7 @@ export default function HomePage() {
       <ServicesSection />
       <PricingSection />
       <PortfolioSection />
+      <BlogSection />
       <ContactSection />
       <Footer />
       <FloatingChatWidget />
