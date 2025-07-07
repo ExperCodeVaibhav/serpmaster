@@ -454,34 +454,127 @@ export function Navigation() {
             >
               Home
             </button>
-            <Link
-              href="/services"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Services
-            </Link>
-            <Link
-              href="/pricing"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/about-us"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/contact-us"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
+            
+            {/* Mobile Services Dropdown */}
+            <div className="space-y-2">
+              <button
+                onClick={() => handleDropdownToggle('services-mobile')}
+                className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <span>Services</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'services-mobile' ? 'rotate-180' : ''}`} />
+              </button>
+              {activeDropdown === 'services-mobile' && (
+                <div className="pl-4 space-y-1">
+                  {megaMenuData.services.sections.map((section) =>
+                    section.items.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={getRouteForItem(item.name)}
+                        className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item.icon} {item.name}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Industries Dropdown */}
+            <div className="space-y-2">
+              <button
+                onClick={() => handleDropdownToggle('industries-mobile')}
+                className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <span>Industries</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'industries-mobile' ? 'rotate-180' : ''}`} />
+              </button>
+              {activeDropdown === 'industries-mobile' && (
+                <div className="pl-4 space-y-1">
+                  {megaMenuData.industries.sections.map((section) =>
+                    section.items.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={getRouteForItem(item.name)}
+                        className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item.icon} {item.name}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Pricing Dropdown */}
+            <div className="space-y-2">
+              <button
+                onClick={() => handleDropdownToggle('pricing-mobile')}
+                className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <span>Pricing</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'pricing-mobile' ? 'rotate-180' : ''}`} />
+              </button>
+              {activeDropdown === 'pricing-mobile' && (
+                <div className="pl-4 space-y-1">
+                  {megaMenuData.pricing.sections.map((section) =>
+                    section.items.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={getRouteForItem(item.name)}
+                        className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item.icon} {item.name}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Company Dropdown */}
+            <div className="space-y-2">
+              <button
+                onClick={() => handleDropdownToggle('company-mobile')}
+                className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <span>Company</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'company-mobile' ? 'rotate-180' : ''}`} />
+              </button>
+              {activeDropdown === 'company-mobile' && (
+                <div className="pl-4 space-y-1">
+                  {megaMenuData.company.sections.map((section) =>
+                    section.items.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={getRouteForItem(item.name)}
+                        className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item.icon} {item.name}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
             <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
               <Sparkles className="w-4 h-4 mr-2" />
               Get Started
