@@ -31,6 +31,7 @@ import TestimonialsPage from "@/pages/testimonials";
 import FAQPage from "@/pages/faq";
 import SupportPage from "@/pages/support";
 import KnowledgeBasePage from "@/pages/knowledge-base";
+import BlogDetailPage from "@/pages/blog-detail";
 import AdminPage from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
@@ -70,6 +71,10 @@ function Router() {
       <Route path="/faq" component={FAQPage} />
       <Route path="/support" component={SupportPage} />
       <Route path="/knowledge-base" component={KnowledgeBasePage} />
+      
+      {/* Blog */}
+      <Route path="/blog" component={BlogPage} />
+      <Route path="/blog/:slug" component={BlogDetailPage} />
       
       {/* Admin */}
       <Route path="/admin" component={AdminPage} />
