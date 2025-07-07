@@ -32,12 +32,12 @@ export function Navigation() {
       "React.js Development": "/web-development",
       "Laravel Development": "/web-development",
       "WordPress Development": "/web-development",
-      "AI Content Engine": "/tools",
-      "AI SEO Analysis": "/tools",
-      "AI Analytics": "/tools",
-      "AI Design Tools": "/tools",
-      "Predictive SEO": "/tools",
-      "AI Automation": "/tools",
+      "AI Content Engine": "/ai-tools",
+      "AI SEO Analysis": "/ai-tools",
+      "AI Analytics": "/ai-tools",
+      "AI Design Tools": "/ai-tools",
+      "Predictive SEO": "/ai-tools",
+      "AI Automation": "/ai-tools",
       "E-commerce": "/industries/ecommerce",
       "Healthcare": "/industries/healthcare",
       "Plumbers": "/industries/plumbers",
@@ -252,7 +252,6 @@ export function Navigation() {
                               key={itemIndex}
                               href={getRouteForItem(item.name)}
                               className="flex items-start space-x-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left w-full group"
-                              onClick={() => setActiveDropdown(null)}
                             >
                               <span className="text-lg">{item.icon}</span>
                               <div>
@@ -263,7 +262,7 @@ export function Navigation() {
                                   {item.desc}
                                 </div>
                               </div>
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -294,11 +293,10 @@ export function Navigation() {
                         </h3>
                         <div className="space-y-3">
                           {section.items.map((item, itemIndex) => (
-                            <Link
+                            <button
                               key={itemIndex}
-                              href={getRouteForItem(item.name)}
+                              onClick={() => scrollToSection("#portfolio")}
                               className="flex items-start space-x-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left w-full group"
-                              onClick={() => setActiveDropdown(null)}
                             >
                               <span className="text-lg">{item.icon}</span>
                               <div>
@@ -309,7 +307,7 @@ export function Navigation() {
                                   {item.desc}
                                 </div>
                               </div>
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -340,11 +338,10 @@ export function Navigation() {
                         </h3>
                         <div className="space-y-3">
                           {section.items.map((item, itemIndex) => (
-                            <Link
+                            <button
                               key={itemIndex}
-                              href={getRouteForItem(item.name)}
+                              onClick={() => scrollToSection("#pricing")}
                               className="flex items-start space-x-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left w-full group"
-                              onClick={() => setActiveDropdown(null)}
                             >
                               <span className="text-lg">{item.icon}</span>
                               <div>
@@ -355,7 +352,7 @@ export function Navigation() {
                                   {item.desc}
                                 </div>
                               </div>
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -386,11 +383,10 @@ export function Navigation() {
                         </h3>
                         <div className="space-y-3">
                           {section.items.map((item, itemIndex) => (
-                            <Link
+                            <button
                               key={itemIndex}
-                              href={getRouteForItem(item.name)}
+                              onClick={() => scrollToSection("#about")}
                               className="flex items-start space-x-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left w-full group"
-                              onClick={() => setActiveDropdown(null)}
                             >
                               <span className="text-lg">{item.icon}</span>
                               <div>
@@ -401,7 +397,7 @@ export function Navigation() {
                                   {item.desc}
                                 </div>
                               </div>
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -411,84 +407,163 @@ export function Navigation() {
               )}
             </div>
 
-            {/* Theme Toggle */}
             <button
-              onClick={toggleTheme}
-              className="p-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              onClick={() => scrollToSection("#portfolio")}
+              className="px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              Portfolio
             </button>
+          </div>
 
-            {/* CTA Button */}
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-lg"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+            <Button
+              onClick={() => scrollToSection("#about")}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+            >
               <Sparkles className="w-4 h-4 mr-2" />
-              Get Started
+              Free Analysis
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center space-x-2">
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleTheme}
-              className="p-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="rounded-lg"
             >
-              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-            </button>
-            <button
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="rounded-lg"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
-          <div className="px-4 py-6 space-y-4">
-            <button
-              onClick={() => scrollToSection("#home")}
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-            >
-              Home
-            </button>
-            <Link
-              href="/services"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Services
-            </Link>
-            <Link
-              href="/pricing"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/about-us"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/contact-us"
-              className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Get Started
+              {isMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
-      )}
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-slate-200/20 dark:border-slate-700/20">
+            <div className="space-y-4">
+              <button
+                onClick={() => scrollToSection("#home")}
+                className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              >
+                Home
+              </button>
+
+              {/* Mobile Services Dropdown */}
+              <div>
+                <button
+                  onClick={() => handleDropdownToggle('mobile-services')}
+                  className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                >
+                  <span>Services</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'mobile-services' ? 'rotate-180' : ''}`} />
+                </button>
+                {activeDropdown === 'mobile-services' && (
+                  <div className="pl-8 pt-2 space-y-2">
+                    {megaMenuData.services.sections.map((section) => 
+                      section.items.map((item, index) => (
+                        <button
+                          key={index}
+                          onClick={() => scrollToSection("#services")}
+                          className="block w-full text-left px-4 py-1 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          {item.icon} {item.name}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Industries Dropdown */}
+              <div>
+                <button
+                  onClick={() => handleDropdownToggle('mobile-industries')}
+                  className="flex items-center justify-between w-full px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                >
+                  <span>Industries</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'mobile-industries' ? 'rotate-180' : ''}`} />
+                </button>
+                {activeDropdown === 'mobile-industries' && (
+                  <div className="pl-8 pt-2 space-y-2">
+                    {megaMenuData.industries.sections.map((section) => 
+                      section.items.map((item, index) => (
+                        <button
+                          key={index}
+                          onClick={() => scrollToSection("#portfolio")}
+                          className="block w-full text-left px-4 py-1 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          {item.icon} {item.name}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => scrollToSection("#pricing")}
+                className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              >
+                Pricing
+              </button>
+
+              <button
+                onClick={() => scrollToSection("#portfolio")}
+                className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              >
+                Portfolio
+              </button>
+
+              <button
+                onClick={() => scrollToSection("#about")}
+                className="block w-full text-left px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              >
+                Company
+              </button>
+
+              <div className="px-4 pt-4">
+                <Button
+                  onClick={() => scrollToSection("#about")}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 w-full justify-center"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Free Analysis
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
